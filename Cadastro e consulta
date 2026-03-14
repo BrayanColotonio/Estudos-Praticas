@@ -1,0 +1,122 @@
+contatos = {}
+id_contato = 1
+
+def menu():
+    print("""
+======== MENU PRINCIPAL ========
+
+1 - Cadastrar contato
+2 - Listar contatos
+3 - Buscar contato por nome
+4 - Remover contato
+5 - Sair
+
+================================
+""")
+
+def cadastrar_contato():
+    global id_contato
+
+    print("\n====== CADASTRAR CONTATO ======")
+    nome = input("Nome: ")
+    atividade = input("Atividade: ")
+    telefone = input("Telefone: ")
+
+    contatos[id_contato] = {
+        "nome": nome,
+        "atividade": atividade,
+        "telefone": telefone
+    }
+
+    print("Contato cadastrado com sucesso!")
+
+    id_contato += 1
+
+
+def listar_contatos():
+    if not contatos:
+        print("\nNenhum contato cadastrado.")
+        return
+
+    print("\n====== LISTA DE CONTATOS ======")
+    for codigo, dados in contatos.items():
+        print(f"ID: {codigo}")
+        print(f"Nome: {dados['nome']}")
+        print(f"Atividade: {dados['atividade']}")
+        print(f"Telefone: {dados['telefone']}")
+        print("----------------------")
+
+
+def buscar_contato():
+    if not contatos:
+        print("\nNenhum contato cadastrado.")
+        return
+
+    nome_busca = input("\nDigite o nome para busca: ").lower()
+    encontrado = False
+
+    for codigo, dados in contatos.items():
+
+        if nome_busca in dados["nome"].lower():
+            print(f"\nID: {codigo}")
+            print(f"Nome: {dados['nome']}")
+            print(f"Atividade: {dados['atividade']}")
+            print(f"Telefone: {dados['telefone']}")
+            print("----------------------")
+
+            encontrado = True
+
+    if not encontrado:
+        print("Nenhum contato encontrado.")
+
+
+def remover_contato():
+    if not contatos:
+        print("\nNenhum contato para remover.")
+        return
+
+    listar_contatos()
+
+    try:
+        id_remover = int(input("\nDigite o ID do contato para remover: "))
+    except ValueError:
+        print("ID inválido.")
+        return
+
+    if id_remover in contatos:
+        del contatos[id_remover]
+        print("Contato removido com sucesso!")
+    else:
+        print("Contato não encontrado.")
+
+
+print("Bem-vindo ao Sistema de Contatos do Brayan")
+
+
+while True:
+    menu()
+
+    try:
+        opcao = int(input("Escolha uma opção: "))
+    except ValueError:
+        print("Digite um número válido.")
+        continue
+
+    if opcao == 1:
+        cadastrar_contato()
+
+    elif opcao == 2:
+        listar_contatos()
+
+    elif opcao == 3:
+        buscar_contato()
+
+    elif opcao == 4:
+        remover_contato()
+
+    elif opcao == 5:
+        print("Encerrando o sistema...")
+        break
+
+    else:
+        print("Opção inválida.")
